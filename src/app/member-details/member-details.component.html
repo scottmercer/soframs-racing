@@ -2,55 +2,87 @@
   <h3 class="text-center lead">Add Member to Racing Team</h3>
   <br />
   <!--Template Driven Form or Model Driven Form?-->
-  <form (ngSubmit)="onSubmit(memberForm)">
+  <form [formGroup]="memberForm" (ngSubmit)="onSubmit(memberForm)">
     <div>
       <div class="row">
         <div class="col-md-6">
-          <input
-            type="text"
-            class="form-control"
-            id="firstName"
-            placeholder="First Name"
-          />
+          <input formControlName="firstName" type="text" class="form-control" id="firstName" placeholder="First Name"
+            [ngClass]="{'is-invalid': memberForm.get('firstName').errors &&
+             memberForm.get('firstName').touched}" />
+          <div class="invalid-feedback" *ngIf="memberForm.get('firstName').errors &&
+                   (memberForm.get('firstName').dirty ||
+                   memberForm.get('firstName').touched)">
+            <span *ngIf="memberForm.get('firstName').errors.required">
+              First Name is required
+            </span>
+            <span *ngIf="memberForm.get('firstName').errors.minlength">
+              Must be at least 3 chars long
+            </span>
+          </div>
         </div>
         <div class="col-md-6">
-          <input
-            type="text"
-            class="form-control"
-            id="lastName"
-            placeholder="Last Name"
-          />
+          <input formControlName="lastName" type="text" class="form-control" id="lastName" placeholder="Last Name"
+            [ngClass]="{'is-invalid': memberForm.get('lastName').errors &&
+             memberForm.get('lastName').touched}" />
+          <div class="invalid-feedback" *ngIf="memberForm.get('lastName').errors &&
+                   (memberForm.get('lastName').dirty ||
+                   memberForm.get('lastName').touched)">
+            <span *ngIf="memberForm.get('lastName').errors.required">
+              Last Name is required
+            </span>
+            <span *ngIf="memberForm.get('lastName').errors.minlength">
+              Must be at least 3 chars long
+            </span>
+          </div>
         </div>
       </div>
       <br />
       <div class="row">
         <div class="col-md-6">
-          <input
-            type="text"
-            class="form-control"
-            id="jobTitle"
-            placeholder="Job Title"
-          />
+          <input formControlName="jobTitle" type="text" class="form-control" id="jobTitle" placeholder="Job Title"
+            [ngClass]="{'is-invalid': memberForm.get('jobTitle').errors &&
+            memberForm.get('jobTitle').touched}" />
+          <div class="invalid-feedback" *ngIf="memberForm.get('jobTitle').errors &&
+                   (memberForm.get('jobTitle').dirty ||
+                   memberForm.get('jobTitle').touched)">
+            <span *ngIf="memberForm.get('jobTitle').errors.required">
+              Job Title is required
+            </span>
+            <span *ngIf="memberForm.get('jobTitle').errors.minlength">
+              Must be at least 5 chars long
+            </span>
+          </div>
         </div>
         <!--We may have to make a service call to get this list-->
-        <select id="team" class="col-md-6 custom-select">
-          <option *ngFor="let team of teams">{{ team.teamName }}</option>
-        </select>
+        <div class="col-md-6">
+          <select [ngClass]="{'is-invalid': memberForm.get('team').errors && memberForm.get('team').touched}"
+            formControlName="team" id="team" class="custom-select">
+            <option value="" selected></option>
+            <option *ngFor="let team of teams" [value]="team.teamName">{{ team.teamName }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="memberForm.get('team').errors &&
+                    (memberForm.get('team').dirty ||
+                    memberForm.get('team').touched)">
+            <span *ngIf="memberForm.get('team').errors.required">
+              Team is required
+            </span>
+          </div>
+        </div>
       </div>
       <br />
       <div class="form-group col-md-6">
         <div class="row">
           <label id="activeStatus" class="md-check lead">
-            <input type="radio" value="Active" name="status" /> Active
+            <input formControlName="status" type="radio" value="Active" name="status" /> Active
           </label>
           <label class="md-check lead">
-            <input type="radio" value="Inactive" name="status" /> Inactive
+            <input formControlName="status" type="radio" value="Inactive" name="status" /> Inactive
           </label>
         </div>
       </div>
     </div>
     <!--Disable if form is invalid-->
-    <button type="submit" class="btn btn-primary pull-right">
+    <button [disabled]="memberForm.invalid" type="submit" class="btn btn-success pull-right">
       Save Member
     </button>
   </form>

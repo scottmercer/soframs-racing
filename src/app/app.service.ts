@@ -10,7 +10,11 @@ export class AppService {
   api = 'http://localhost:8000/api';
   username: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+  setUsername(name: string): void {
+    this.username = name;
+  }
 
   // Returns all members
   getMembers() {
@@ -19,13 +23,39 @@ export class AppService {
       .pipe(catchError(this.handleError));
   }
 
-  setUsername(name: string): void {
-    this.username = name;
+  // Return member by ID
+  getMember(id) {
+    return this.http
+      .get(`${this.api}/member/${id}`)
+      .pipe(catchError(this.handleError));
   }
 
-  addMember(memberForm) {}
+  // Add members
+  addMember(memberForm) {
+    return this.http
+      .post(`${this.api}/addMember`, memberForm)
+      .pipe(catchError(this.handleError));
+  }
 
-  getTeams() {}
+  // Delete member by Id
+  deleteMember(id: number) {
+    return this.http
+      .delete(`${this.api}/deleteMember/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  // Update member by Id
+  updateMember(id: number, memberForm) {
+    return this.http
+      .put(`${this.api}/updateMember/${id}`, memberForm)
+      .pipe(catchError(this.handleError));
+  }
+
+  getTeams() {
+    return this.http
+      .get(`${this.api}/teams`)
+      .pipe(catchError(this.handleError));
+  }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

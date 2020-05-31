@@ -14,6 +14,8 @@ import { MemberDetailsComponent } from './member-details/member-details.componen
 import { MembersComponent } from './members/members.component';
 import { LoginComponent } from './login/login.component';
 
+import { AuthGuard } from './auth.guard';
+
 // We may be missing a route...
 const ROUTES = [
   {
@@ -23,7 +25,18 @@ const ROUTES = [
   },
   {
     path: 'members',
-    component: MembersComponent
+    component: MembersComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'member-details',
+    component: MemberDetailsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'member-details/:id',
+    component: MemberDetailsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
@@ -44,4 +57,4 @@ const ROUTES = [
   providers: [AppService, HttpClient],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

@@ -19,6 +19,11 @@
         <td>{{member?.jobTitle}}</td>
         <td>{{member?.team}}</td>
         <td>{{member?.status}}</td>
+        <td>
+          <button [routerLink]="['/member-details', member.id]" type="button"
+            class="btn btn-outline-primary mr-1">Edit</button>
+          <button (click)="deleteMemberById(member.id)" type="button" class="btn btn-outline-danger">Delete</button>
+        </td>
       </tr>
     </tbody>
   </table>
